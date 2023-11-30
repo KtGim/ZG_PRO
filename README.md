@@ -24,6 +24,12 @@
 
 - [构建工具](https://www.yuque.com/u40380/aggaky/bbfvr45h0sfh6akv)
 
+## 插件
+
+- csv-loader
+- xml-loader
+- [ts-loader](https://www.npmjs.com/package/ts-loader)
+
 ## 其他
 
 - [md 官网](https://markdown.com.cn/intro.html)
