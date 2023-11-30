@@ -14,11 +14,19 @@
 - site 文档网站项目
 - utils 辅助函数，工具目录
 
-## MD 书写规范
+## 构建工具
+
+- [swc](https://swc.rs/)
+- [babel](https://babeljs.io/)
+- [esbuild](https://esbuild.github.io/)
+
+## 个人总结
+
+- [构建工具](https://www.yuque.com/u40380/aggaky/bbfvr45h0sfh6akv)
+
+## 其他
 
 - [md 官网](https://markdown.com.cn/intro.html)
-
-## TS 相关网站
-
-- [官方网站](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
+- [TS官方网站](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
 - [tsconfig](https://www.typescriptlang.org/tsconfig)
+- [TS + webpack + react](https://www.alibabacloud.com/blog/build-standardized-applications-with-webpack5-%2B-react-%2B-ts-from-0-to-1_599551)
