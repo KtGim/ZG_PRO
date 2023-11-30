@@ -1,0 +1,25 @@
+{
+  "name": "zg_pro",
+  "version": "1.0.0",
+  "description": "写一点自己的技术沉淀",
+  "main": "site/app/index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KtGim/ZG_PRO.git"
+  },
+  "keywords": [
+    "private"
+  ],
+  "author": "KtGim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KtGim/ZG_PRO/issues"
+  },
+  "homepage": "https://github.com/KtGim/ZG_PRO#readme"
+}
