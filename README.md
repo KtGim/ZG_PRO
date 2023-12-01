@@ -36,3 +36,4 @@
 - [TS官方网站](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
 - [tsconfig](https://www.typescriptlang.org/tsconfig)
 - [TS + webpack + react](https://www.alibabacloud.com/blog/build-standardized-applications-with-webpack5-%2B-react-%2B-ts-from-0-to-1_599551)
+- [react 18 types](https://johnnyreilly.com/react-18-and-typescript)

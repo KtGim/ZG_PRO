@@ -2,17 +2,27 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const os = require('os');
+const DEV = true;
+const DEBUG = true;
 
-
-const { DEV, DEBUG } = process.env;
-process.env.BABEL_ENV = DEV ? 'development' : 'production';
-process.env.NODE_ENV = DEV ? 'development' : 'production';
-
-console.log(DEV, DEBUG);
+const getIPAdress = () => {
+    let interfaces = os.networkInterfaces();
+    for (let devName in interfaces) {
+        let iface = interfaces[devName];
+        for (let i = 0; i < iface.length; i++) {
+            let alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                return alias.address;
+            }
+        }
+    }
+};
+const localIp = getIPAdress();
 
 module.exports = {
     entry: './site/app/index.tsx',
@@ -30,24 +40,37 @@ module.exports = {
         filename: !DEV ? 'js/[name].[contenthash:8].js' : 'js/[name].[hash:8].js'
     },
     devServer: {
-        port: 3000
+        port: 3000,
+        host: localIp,
+        // allowedHosts:'all',
+        client: {
+            progress: true
+        },
+        hot: true,
+        open: true,
+        compress: true,
     },
     mode: DEV ? 'development' : 'production',
     devtool: DEV && 'source-map',
     module: {
         rules: [
-            {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-            },
+            // {
+            //     test: /\.jsx?$/,
+            //     exclude: /node_modules/,
+            //     loader: 'babel-loader',
+            // },
+            // {
+            //     test: /\.tsx?$/,
+            //     exclude: /node_modules/,
+            //     loader: 'ts-loader',
+            //     options: {
+            //         transpileOnly: true // 只进行编译不会进行类型检查和声明文件的输出
+            //     }
+            // },
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                loader: 'ts-loader',
-                options: {
-                    transpileOnly: true // 只进行编译不会进行类型检查和声明文件的输出
-                }
+                loader: "swc-loader"
             },
             {
                 test: /\.(less|css)$/,
@@ -56,14 +79,14 @@ module.exports = {
                 {
                     loader: 'css-loader',
                     options: {
-                    importLoaders: 2,
-                    sourceMap: !!DEV,
+                        importLoaders: 2,
+                        sourceMap: !!DEV,
                     },
                 },
                 {
                     loader: 'less-loader',
                     options: {
-                    sourceMap: !!DEV,
+                        sourceMap: !!DEV,
                     },
                 },
                 ],
@@ -104,12 +127,13 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-          template: path.join(__dirname, '/src/index.html'),
-          filename: 'app.html',
+          template: path.join(__dirname, '../../static/index.html'),
+          filename: 'index.html',
           inject: 'body',
         }),
-        DEBUG && new BundleAnalyzerPlugin(),
+        // DEBUG && new BundleAnalyzerPlugin(),
         new MiniCssExtractPlugin({
           filename: '[name].css',
           chunkFilename: '[name].css',
@@ -132,7 +156,7 @@ module.exports = {
               },
             },
           }),
-          new OptimizeCSSAssetsPlugin({}),
+          new CssMinimizerPlugin(),
         ],
         minimize: !DEV,
         splitChunks: {
@@ -144,6 +168,6 @@ module.exports = {
     },
     resolve: {
         modules: ['node_modules'],
-        extensions: ['.json', '.js', '.jsx', '.ts', '.tsx', '.less', 'scss'],
+        extensions: [".json",".js",".jsx",".ts",".tsx",".less",".scss"]
     },
 }
