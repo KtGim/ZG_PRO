@@ -5,10 +5,14 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+
 
 const { DEV, DEBUG } = process.env;
 process.env.BABEL_ENV = DEV ? 'development' : 'production';
 process.env.NODE_ENV = DEV ? 'development' : 'production';
+
+console.log(DEV, DEBUG);
 
 module.exports = {
     entry: './site/app/index.tsx',
@@ -29,6 +33,7 @@ module.exports = {
         port: 3000
     },
     mode: DEV ? 'development' : 'production',
+    devtool: DEV && 'source-map',
     module: {
         rules: [
             {
@@ -41,7 +46,7 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'ts-loader',
                 options: {
-                    transpileOnly: true
+                    transpileOnly: true // 只进行编译不会进行类型检查和声明文件的输出
                 }
             },
             {
@@ -98,22 +103,25 @@ module.exports = {
             //   },
         ]
     },
-    plugins:[
-        new CleanWebpackPlugin(),
+    plugins: [
+        new HtmlWebpackPlugin({
+          template: path.join(__dirname, '/src/index.html'),
+          filename: 'app.html',
+          inject: 'body',
+        }),
         DEBUG && new BundleAnalyzerPlugin(),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[name].css',
+          filename: '[name].css',
+          chunkFilename: '[name].css',
         }),
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname,'../../static/index.html')
-        }),
-        // new webpack.ProvidePlugin({
-        //     //_: 'lodash'
-        //     // If there is no comment, you need to quote console like this.log(_.join(['hello', 'webpack'], ' '))
-        //     join: ['lodash', 'join'],
-        // })
-    ],
+        new ESLintPlugin(),
+        // new ForkTsCheckerWebpackPlugin(),
+      ].filter(Boolean),
+      // new webpack.ProvidePlugin({
+    //     _: 'lodash'
+    //     // If there is no comment, you need to quote console like this.log(_.join(['hello', 'webpack'], ' '))
+    //     join: ['lodash', 'join'],
+    // })
     optimization: {
         minimizer: [
           new TerserPlugin({
@@ -133,5 +141,9 @@ module.exports = {
                 vendors: false,
             },
         },
+    },
+    resolve: {
+        modules: ['node_modules'],
+        extensions: ['.json', '.js', '.jsx', '.ts', '.tsx', '.less', 'scss'],
     },
 }
