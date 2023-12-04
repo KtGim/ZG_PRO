@@ -5,10 +5,10 @@ type ConditionClass = {
     isImportant?: boolean;  // -className
 };
 type Class = string | ConditionClass;
-type GetGlasses = (prefix?: string, ...classes: Class[]) => string;
+type GetClasses = (prefix?: string, ...classes: Class[]) => string;
 
 export type {
     Class,
     ConditionClass,
-    GetGlasses
+    GetClasses
 };

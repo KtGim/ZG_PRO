@@ -1,5 +1,5 @@
 import { components_prefix } from "../../consts";
-import { ConditionClass, GetGlasses } from "./interfaces";
+import { ConditionClass, GetClasses } from "./interfaces";
 
 /**
  * 根据条件拼接 class 名称
@@ -7,7 +7,7 @@ import { ConditionClass, GetGlasses } from "./interfaces";
  * @param classes class 名称，可以是字符串或者对象
  * @returns 拼接后的 class 名称
  */
-const getClasses: GetGlasses = (prefix = components_prefix, ...classes) => {
+const getClasses: GetClasses = (prefix = components_prefix, ...classes) => {
     const classList = (classes || []).reduce((acc, cur) => {
         if (typeof cur === 'string') {
             return [...acc, ` ${cur}`];
