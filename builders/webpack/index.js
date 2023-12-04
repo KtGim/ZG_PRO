@@ -168,6 +168,15 @@ module.exports = {
     },
     resolve: {
         modules: ['node_modules'],
-        extensions: [".json",".js",".jsx",".ts",".tsx",".less",".scss"]
+        extensions: [".json",".js",".jsx",".ts",".tsx",".less",".scss"],
+        alias: {
+            'site': path.resolve(__dirname, '../../site'),
+            'utils': path.resolve(__dirname, '../../utils'),
+            'components': path.resolve(__dirname, '../../components'),
+            'hooks': path.resolve(__dirname, '../../hooks'),
+            'assets': path.resolve(__dirname, '../../static'),
+            'config': path.resolve(__dirname, '../../config'),
+            'consts': path.resolve(__dirname, '../../consts'),
+        },
     },
 }

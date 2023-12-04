@@ -1,13 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
+import MasonryLayout from '../../components/Layouts/Masonry';
 
 type AppProps = {
 };
 
 const App: React.FC<AppProps> = () => {
-  return <div>你好</div>;
+  return <MasonryLayout columns={5}>hello</MasonryLayout>;
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.createRoot(document.getElementById('root') as Element, {
+  // identifierPrefix?: string;
+  onRecoverableError: (error: unknown, errorInfo) => {
+    console.error('CREATE ROOT CONTAINER', error, errorInfo);
+  }
+}).render(<App />);
 
 export default App;
