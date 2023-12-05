@@ -176,7 +176,7 @@ module.exports = {
             'hooks': path.resolve(__dirname, '../../hooks'),
             'assets': path.resolve(__dirname, '../../static'),
             'config': path.resolve(__dirname, '../../config'),
-            'consts': path.resolve(__dirname, '../../consts'),
+            'consts': path.resolve(__dirname, '../../consts')
         },
     },
 }
