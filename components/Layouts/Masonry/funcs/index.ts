@@ -15,7 +15,8 @@ const createElement: CreateElement = (props) => {
 };
 
 const getRandomNumber = () => {
-  return Math.random() * 250;
+  const height = Math.floor(Math.random() * 300);
+  return  height < 50 ? 50 : height;
 }
 
 

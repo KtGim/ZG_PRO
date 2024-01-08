@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 type MasonryProps = {
     columns: number;
     gap: number;
@@ -11,15 +13,25 @@ type MasonryProps = {
 type MasonryState = {
     columnWidth: number;
     maxColumnHeightIndex: number;
+    minColumnHeightIndex: number;
+    maxColumnHeight: number;
+    minColumnHeight: number;
+    baseWidth: number;
 };
 
-type MasonryContents = {
-    [key in number]: MasonryItemProps[]
+type MasonryContent = {
+    width: number;
+    height: number;
+    padding?: string;
+    margin:string;
+    key: string | number;
 }
 
-type MasonryContentMaxHeight = {
-    [key in number]: number
-};
+type MasonryContents = {
+    [key in number | string]?: MasonryContent[]
+}
+
+type MasonryContentMaxHeight = number[];
 
 type MasonryItemProps = {
     height: number;
@@ -33,7 +45,7 @@ type CreateElementProps = {
     gap: number;
 };
 
-type CreateElement = (props: CreateElementProps & MasonryItemProps) => { div: HTMLElement, height?: number } | void;
+type CreateElement = (props: CreateElementProps & Partial<MasonryItemProps>) => { div: HTMLElement, height?: number };
 
 export type { MasonryProps, MasonryState, MasonryItemProps, CreateElement, MasonryContents, MasonryContentMaxHeight };
 
