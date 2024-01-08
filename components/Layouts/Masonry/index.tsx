@@ -9,11 +9,22 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
 
     const {
         children,
-        gap = 5,
-        columns
+        dataSource = [],
+        callBackRender
     } = props;
 
     const masonryRef = useRef<HTMLDivElement>(null);
+    const [layoutInfo, setLayout] = useState({
+        gap: 5,
+        columns: 3
+    });
+
+    useEffect(() => {
+        setLayout({
+            gap: (Math.floor(Math.random() * 2) + 1) * 5,
+            columns: Math.floor(Math.random() * 3) + 3,
+        });
+    }, [])
 
     const [state, setState] = useState<MasonryState>({
         columnWidth: 0,
@@ -30,10 +41,12 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
     useEffect(() => {
         const currentMasonryContents: MasonryContents = {};
         if (masonryRef.current) {
+            const { gap, columns } = layoutInfo;
             masonryRef.current.style.padding = `${gap}px 0`;
             masonryRef.current.style.height = `600px`;
             const width = masonryRef.current?.offsetWidth;
             const mainHeight = masonryRef.current.getBoundingClientRect().height;
+            let index = 0;
             for(let i = 0; i < columns; i++) {
                 // contents[i] = [];
                 currentMasonryContents[i] = [];
@@ -42,19 +55,26 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
             if(width) {
                 const contentWidth = Math.floor((width - columns * 2 * gap) / columns);
                 for(let i = 0; i < columns; i ++) {
-                    const { height = 0 } = createElement({ width: contentWidth, gap });
+                    let info = null;
+
+                    if(index < dataSource.length) {
+                        info = dataSource[index];
+                        index ++;
+                    }
+
+                    const { height = 0, dom } = createElement({ width: contentWidth, gap, callBackRender, info });
                     columnsHeight[i] += (height || 0);
                     currentMasonryContents[i]?.push({
                         width: contentWidth,
                         height,
                         margin: `${gap / 2}px 0`,
                         key: `${i}_${Math.floor(Math.random() * 100000)}`,
+                        dom
                     });
                 }
-                let i = 0;
                 // 小顶堆排序
                 while(columnsHeight.some(h => h < (mainHeight - 50))) {
-                    const { height = 0 } = createElement({ width: contentWidth, gap });
+                    const { height = 0, dom } = createElement({ width: contentWidth, gap });
                     state.minColumnHeightIndex = columnsHeight.indexOf(Math.min(...(columnsHeight.filter(h => h < (mainHeight - 50)))));
                     // console.log(state.minColumnHeightIndex, height, columnsHeight); 
                     currentMasonryContents[state.minColumnHeightIndex]?.push({
@@ -62,6 +82,7 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
                         height,
                         margin: `${gap / 2}px 0`,
                         key: `${state.minColumnHeightIndex}_${Math.floor(Math.random() * 100000)}`,
+                        dom
                     });
                     
                     columnsHeight[state.minColumnHeightIndex] += (height || 0);
@@ -71,7 +92,7 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
                 setContent(currentMasonryContents);
             }
         }
-    }, [columns]);
+    }, [layoutInfo]);
     return (
         <div ref={masonryRef} className={masonry_class}>
             <p>{children}</p>
@@ -79,13 +100,13 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
                 return <div
                     style={{
                         width: state.baseWidth,
-                        margin: `0 ${gap}px`,
+                        margin: `0 ${layoutInfo.gap}px`,
                         float: 'left'
                     }}
                     key={cK}
                 >
                     {
-                        contents[cK]?.map(({ height, margin, key }) => <div
+                        contents[cK]?.map(({ height, margin, key, dom }) => <div
                             key={key}
                             style={{
                                 height,
@@ -93,7 +114,7 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
                                 margin,
                                 backgroundColor: '#eee',
                             }}
-                        >{key}:{height}</div>)
+                        >{dom}</div>)
                     }
                 </div>
             })}

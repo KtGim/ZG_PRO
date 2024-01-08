@@ -6,7 +6,7 @@ type AppProps = {
 };
 
 const App: React.FC<AppProps> = () => {
-  return <MasonryLayout columns={5} gap={5}>hello</MasonryLayout>;
+  return <MasonryLayout dataSource={[]} >hello</MasonryLayout>;
 };
 
 ReactDOM.createRoot(document.getElementById('root') as Element, {

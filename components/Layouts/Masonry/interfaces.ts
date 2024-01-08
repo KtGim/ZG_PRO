@@ -1,13 +1,9 @@
 import { ReactNode } from "react";
 
 type MasonryProps = {
-    columns: number;
-    gap: number;
     children?: React.ReactNode;
-    height?: number;
-    width?: number;
-    minWidth?: number;
-    fetchUrl?: string;
+    dataSource?: object[];
+    callBackRender?: Function;
 };
 
 type MasonryState = {
@@ -25,6 +21,8 @@ type MasonryContent = {
     padding?: string;
     margin:string;
     key: string | number;
+    item?: object,
+    dom?: ReactNode
 }
 
 type MasonryContents = {
@@ -43,9 +41,11 @@ type CreateElementProps = {
     identifier?: HTMLElementTagNameMap | string;
     width: number;
     gap: number;
+    callBackRender?: Function,
+    info?: object | null
 };
 
-type CreateElement = (props: CreateElementProps & Partial<MasonryItemProps>) => { div: HTMLElement, height?: number };
+type CreateElement = (props: CreateElementProps & Partial<MasonryItemProps>) => { dom: ReactNode, height?: number };
 
 export type { MasonryProps, MasonryState, MasonryItemProps, CreateElement, MasonryContents, MasonryContentMaxHeight };
 
