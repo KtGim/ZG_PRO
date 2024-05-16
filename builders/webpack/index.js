@@ -77,6 +77,9 @@ module.exports = {
                 exclude: /\.module\.less$/,
                 use: [
                 {
+                    loader: MiniCssExtractPlugin.loader
+                },
+                {
                     loader: 'css-loader',
                     options: {
                         importLoaders: 2,
@@ -92,38 +95,17 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(sass|scss)$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 2,
-                            sourceMap: !!DEV,
-                        },
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            sourceMap: !!DEV,
-                        },
-                    },
-                ],
-            },
-            {
                 test: /\.png/,
                 type: 'asset/resource'
             },
-            //   {
-            //     test: /\.(csv|tsv)$/i,
-            //     use: ['csv-loader'],
-            //   },
-            //   {
-            //     test: /\.xml$/i,
-            //     use: ['xml-loader'],
-            //   },
+            {
+                test: /\.(csv|tsv)$/i,
+                use: ['csv-loader'],
+            },
+            {
+                test: /\.xml$/i,
+                use: ['xml-loader'],
+            },
         ]
     },
     plugins: [
@@ -135,12 +117,11 @@ module.exports = {
         }),
         // DEBUG && new BundleAnalyzerPlugin(),
         new MiniCssExtractPlugin({
-          filename: '[name].css',
-          chunkFilename: '[name].css',
+            insert: "#css-insert-port"
         }),
         new ESLintPlugin(),
         // new ForkTsCheckerWebpackPlugin(),
-      ].filter(Boolean),
+    ],
       // new webpack.ProvidePlugin({
     //     _: 'lodash'
     //     // If there is no comment, you need to quote console like this.log(_.join(['hello', 'webpack'], ' '))

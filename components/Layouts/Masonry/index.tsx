@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MasonryContents, MasonryProps, MasonryState } from "./interfaces";
-import { masonry_class } from "./const";
+import { masonry_prefix } from "./const";
 import { createElement } from "./funcs";
 
-import '../../styles/Layouts/masonry.less'
+import * as styles from '../../styles/Layouts/masonry.less'
 
 const MasonryLayout: React.FC<MasonryProps> = (props) => {
-
+    console.log(styles);
     const {
         children,
         dataSource = [],
@@ -43,7 +43,7 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
         if (masonryRef.current) {
             const { gap, columns } = layoutInfo;
             masonryRef.current.style.padding = `${gap}px 0`;
-            masonryRef.current.style.height = `600px`;
+            // masonryRef.current.style.height = `600px`;
             const width = masonryRef.current?.offsetWidth;
             const mainHeight = masonryRef.current.getBoundingClientRect().height;
             let index = 0;
@@ -94,7 +94,7 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
         }
     }, [layoutInfo]);
     return (
-        <div ref={masonryRef} className={masonry_class}>
+        <div ref={masonryRef} className={masonry_prefix}>
             <p>{children}</p>
             {Object.keys(contents).map((cK) => {
                 return <div
@@ -104,6 +104,7 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
                         float: 'left'
                     }}
                     key={cK}
+                    className="item"
                 >
                     {
                         contents[cK]?.map(({ height, margin, key, dom }) => <div
@@ -112,8 +113,8 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
                                 height,
                                 width: '100%',
                                 margin,
-                                backgroundColor: '#eee',
                             }}
+                            className="content"
                         >{dom}</div>)
                     }
                 </div>

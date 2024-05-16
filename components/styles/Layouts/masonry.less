@@ -1,6 +1,13 @@
-@import url('../variables.less');
+@import url('../consts.less');
 
-.@{components_prefix} .masonry {
+.masonry {
   height: calc(100vh - 50px);
   overflow-y: scroll;
+
+  .item {
+
+    .content {
+      background-color: @mainColor;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MasonryLayout from '../../components/Layouts/Masonry';
+import MasonryLayout from 'components/Layouts/Masonry';
+import 'components/styles/index.less';
 
 type AppProps = {
 };
