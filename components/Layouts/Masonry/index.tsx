@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MasonryContents, MasonryProps, MasonryState } from "./interfaces";
-import { masonry_prefix } from "./const";
+import { defaultColumns, defaultGap, masonry_prefix } from "./const";
 import { createElement } from "./funcs";
 
 import * as styles from '../../styles/Layouts/masonry.less'
@@ -12,17 +12,16 @@ const MasonryLayout: React.FC<MasonryProps> = (props) => {
         dataSource = [],
         callBackRender
     } = props;
-
     const masonryRef = useRef<HTMLDivElement>(null);
     const [layoutInfo, setLayout] = useState({
-        gap: 5,
-        columns: 3
+        gap: defaultGap,
+        columns: defaultColumns
     });
 
     useEffect(() => {
         setLayout({
-            gap: (Math.floor(Math.random() * 2) + 1) * 5,
-            columns: Math.floor(Math.random() * 3) + 3,
+            gap: defaultGap,
+            columns: Math.floor(Math.random() * 3) + defaultColumns,
         });
     }, [])
 

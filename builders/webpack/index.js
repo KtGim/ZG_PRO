@@ -116,9 +116,7 @@ module.exports = {
           inject: 'body',
         }),
         // DEBUG && new BundleAnalyzerPlugin(),
-        new MiniCssExtractPlugin({
-            insert: "#css-insert-port"
-        }),
+        new MiniCssExtractPlugin(),
         new ESLintPlugin(),
         // new ForkTsCheckerWebpackPlugin(),
     ],
